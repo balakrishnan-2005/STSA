@@ -28,9 +28,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import ApplicationForm from "@/components/ApplicationForm";
 
 const benefits = [
   {
@@ -113,94 +111,6 @@ const cultureImages = [
   "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800",
   "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800"
 ];
-
-function ApplicationForm({ jobTitle }: { jobTitle: string }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    setIsSuccess(true);
-  };
-
-  if (isSuccess) {
-    return (
-      <div className="py-12 text-center animate-in fade-in zoom-in duration-300">
-        <div className="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle2 className="w-10 h-10" />
-        </div>
-        <h3 className="text-2xl font-bold mb-2">Application Sent!</h3>
-        <p className="text-muted-foreground mb-8">
-          Thank you for applying for the {jobTitle} position. Our team will review your application and get back to you soon.
-        </p>
-        <Button onClick={() => window.location.reload()} variant="outline" className="w-full">
-          Close
-        </Button>
-      </div>
-    );
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6 py-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="firstName">First Name</Label>
-          <Input id="firstName" placeholder="John" required />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="lastName">Last Name</Label>
-          <Input id="lastName" placeholder="Doe" required />
-        </div>
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="email">Email Address</Label>
-        <Input id="email" type="email" placeholder="john@example.com" required />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="phone">Phone Number</Label>
-        <Input id="phone" type="tel" placeholder="+1 (555) 000-0000" required />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="resume">Resume / CV</Label>
-        <div className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-primary/50 transition-colors cursor-pointer group">
-          <Upload className="w-8 h-8 text-muted-foreground group-hover:text-primary mx-auto mb-2 transition-colors" />
-          <p className="text-sm text-muted-foreground">
-            Click to upload or drag and drop (PDF, DOCX)
-          </p>
-          <input type="file" className="hidden" id="resume-upload" />
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="message">Cover Letter / Additional Info</Label>
-        <Textarea 
-          id="message" 
-          placeholder="Tell us why you're a great fit for this role..." 
-          className="min-h-[120px]"
-          required
-        />
-      </div>
-
-      <Button type="submit" className="w-full h-12 indigo-gradient" disabled={isSubmitting}>
-        {isSubmitting ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Submitting...
-          </>
-        ) : (
-          "Submit Application"
-        )}
-      </Button>
-    </form>
-  );
-}
 
 export default function CareersPage() {
   return (
