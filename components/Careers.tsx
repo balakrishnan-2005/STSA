@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 const jobs = [
   {
     title: "Senior Full Stack Engineer",
-    location: "Remote / San Francisco",
+    location: "Remote / Manapparai",
     type: "Full-time",
     salary: "$140k - $180k",
   },
@@ -40,7 +40,7 @@ export default function Careers() {
               Join the <span className="text-gradient">Team</span>
             </motion.h2>
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
-              We're always looking for talented individuals who are passionate about engineering the future. Work on high-impact projects with a world-class team.
+              Have a Project Idea or Want to Join Our Team? Message Us Now. We're always looking for talented individuals who are passionate about engineering the future.
             </p>
             <Button variant="outline" className="border-border hover:bg-accent/50">
               View All Openings

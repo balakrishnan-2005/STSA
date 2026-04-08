@@ -18,7 +18,7 @@ export default function About() {
               About the <span className="text-gradient">Company</span>
             </h2>
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
-              STSA is a forward-thinking software engineering firm dedicated to building high-performance digital products. We combine technical excellence with strategic design to help businesses scale in an AI-driven world.
+              STS is a forward-thinking software engineering firm dedicated to building high-performance digital products. We combine technical excellence with strategic design to help businesses scale in an AI-driven world.
             </p>
             <div className="space-y-6">
               {[

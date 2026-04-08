@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "motion/react";
+import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface ShapeProps {
@@ -11,6 +11,9 @@ interface ShapeProps {
   height?: number;
   rotate?: number;
   gradient?: string;
+  mouseX: any;
+  mouseY: any;
+  parallaxFactor?: number;
 }
 
 function Shape({
@@ -20,7 +23,13 @@ function Shape({
   height = 100,
   rotate = 0,
   gradient = "from-white/[0.08]",
+  mouseX,
+  mouseY,
+  parallaxFactor = 0.05,
 }: ShapeProps) {
+  const x = useTransform(mouseX, [0, 1000], [-100 * parallaxFactor, 100 * parallaxFactor]);
+  const y = useTransform(mouseY, [0, 1000], [-100 * parallaxFactor, 100 * parallaxFactor]);
+
   return (
     <motion.div
       initial={{
@@ -33,6 +42,7 @@ function Shape({
         y: 0,
         rotate: rotate,
       }}
+      style={{ x, y }}
       transition={{
         duration: 2.4,
         delay,
@@ -87,6 +97,22 @@ export default function HeroGeometric({
   subtitle = "Crafting exceptional digital experiences through innovative design and cutting-edge technology.",
   children,
 }: HeroGeometricProps) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 25, stiffness: 150 };
+  const smoothMouseX = useSpring(mouseX, springConfig);
+  const smoothMouseY = useSpring(mouseY, springConfig);
+
+  const textX = useTransform(smoothMouseX, [0, 1000], [-15, 15]);
+  const textY = useTransform(smoothMouseY, [0, 1000], [-15, 15]);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const { clientX, clientY } = e;
+    mouseX.set(clientX - window.innerWidth / 2);
+    mouseY.set(clientY - window.innerHeight / 2);
+  };
+
   const fadeUpVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: (i: number) => ({
@@ -101,7 +127,10 @@ export default function HeroGeometric({
   };
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]">
+    <div 
+      onMouseMove={handleMouseMove}
+      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]"
+    >
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
 
       <div className="absolute inset-0 overflow-hidden">
@@ -112,6 +141,9 @@ export default function HeroGeometric({
           rotate={12}
           gradient="from-indigo-500/[0.15]"
           className="left-[-10%] top-[15%] md:left-[-5%] md:top-[20%]"
+          mouseX={smoothMouseX}
+          mouseY={smoothMouseY}
+          parallaxFactor={0.4}
         />
 
         <Shape
@@ -121,6 +153,9 @@ export default function HeroGeometric({
           rotate={-15}
           gradient="from-rose-500/[0.15]"
           className="right-[-5%] top-[70%] md:right-[0%] md:top-[75%]"
+          mouseX={smoothMouseX}
+          mouseY={smoothMouseY}
+          parallaxFactor={0.6}
         />
 
         <Shape
@@ -130,6 +165,9 @@ export default function HeroGeometric({
           rotate={-8}
           gradient="from-violet-500/[0.15]"
           className="left-[5%] bottom-[5%] md:left-[10%] md:bottom-[10%]"
+          mouseX={smoothMouseX}
+          mouseY={smoothMouseY}
+          parallaxFactor={0.3}
         />
 
         <Shape
@@ -139,6 +177,9 @@ export default function HeroGeometric({
           rotate={20}
           gradient="from-amber-500/[0.15]"
           className="right-[15%] top-[10%] md:right-[20%] md:top-[15%]"
+          mouseX={smoothMouseX}
+          mouseY={smoothMouseY}
+          parallaxFactor={0.5}
         />
 
         <Shape
@@ -148,10 +189,16 @@ export default function HeroGeometric({
           rotate={-25}
           gradient="from-cyan-500/[0.15]"
           className="left-[20%] top-[5%] md:left-[25%] md:top-[10%]"
+          mouseX={smoothMouseX}
+          mouseY={smoothMouseY}
+          parallaxFactor={0.2}
         />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 md:px-6">
+      <motion.div 
+        style={{ x: textX, y: textY }}
+        className="relative z-10 container mx-auto px-4 md:px-6"
+      >
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             custom={0}
@@ -203,9 +250,25 @@ export default function HeroGeometric({
             {children}
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-[#030303]/80 pointer-events-none" />
+      
+      {/* Futuristic Scanline Effect */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-20 opacity-20">
+        <motion.div 
+          animate={{
+            y: ["-100%", "200%"]
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="w-full h-[1px] bg-indigo-400 shadow-[0_0_20px_rgba(129,140,248,0.8)]"
+        />
+      </div>
     </div>
   );
 }
+

@@ -19,8 +19,8 @@ import { Input } from "@/components/ui/input";
 import { GoogleGenAI } from "@google/genai";
 import ReactMarkdown from "react-markdown";
 
-const SYSTEM_INSTRUCTION = `You are the STSA AI Assistant. You help visitors learn about STSA Software Company.
-STSA is a world-class software development company specializing in:
+const SYSTEM_INSTRUCTION = `You are the STS AI Assistant. You help visitors learn about STS Software Company.
+STS is a world-class software development company specializing in:
 - Custom Digital Products (Web & Mobile Apps)
 - AI-Driven Solutions & Automation
 - High-Performance Engineering
@@ -32,7 +32,10 @@ Key facts:
 - We have a Careers page with open roles like Full Stack Engineer, AI Research Engineer, etc.
 - Our process involves discovery, design, development, and deployment.
 
-Be professional, helpful, and concise. If you don't know something, offer to connect them with our team via the Contact page.`;
+Be professional, helpful, and concise. If you don't know something, offer to connect them with our team:
+- Email: stsvicky2025@gmail.com
+- Phone: +91 9486261524
+- Or use the "Start Your Project" form on the Contact page.`;
 
 interface Message {
   role: "user" | "model";
@@ -44,7 +47,7 @@ export default function ChatBot() {
   const [isMinimized, setIsMinimized] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([
-    { role: "model", text: "Hi! I'm the STSA Assistant. How can I help you build the future today?" }
+    { role: "model", text: "Hi! I'm the STS Assistant. How can I help you build the future today?" }
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -138,7 +141,7 @@ export default function ChatBot() {
                   <Bot className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold font-heading leading-none">STSA Assistant</h3>
+                  <h3 className="text-sm font-bold font-heading leading-none">STS Assistant</h3>
                   <div className="flex items-center gap-1 mt-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Online</span>
@@ -237,7 +240,7 @@ export default function ChatBot() {
                   </form>
                   <p className="text-[10px] text-center text-muted-foreground mt-2 flex items-center justify-center gap-1">
                     <Sparkles className="w-3 h-3 text-indigo-400" />
-                    Powered by STSA AI
+                    Powered by STS AI
                   </p>
                 </div>
               </>

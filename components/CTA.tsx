@@ -4,8 +4,23 @@ import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import ContactForm from "./ContactForm";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function CTA() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleViewWork = () => {
+    if (location.pathname === "/") {
+      const element = document.getElementById("projects");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate("/#projects");
+    }
+  };
+
   return (
     <section id="contact" className="py-24 px-6 relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -25,7 +40,7 @@ export default function CTA() {
             </div>
             
             <h2 className="text-4xl md:text-6xl font-bold font-heading mb-6 tracking-tight">
-              Let's turn your vision into <span className="text-gradient">reality.</span>
+              Have a Project Idea or Want to Join Our Team? <span className="text-gradient">Message Us Now</span>
             </h2>
             
             <p className="text-muted-foreground text-lg md:text-xl mb-12 leading-relaxed">
@@ -41,7 +56,12 @@ export default function CTA() {
                   </Button>
                 }
               />
-              <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-border hover:bg-accent/50">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="h-14 px-8 text-lg border-border hover:bg-accent/50"
+                onClick={handleViewWork}
+              >
                 View Our Work
               </Button>
             </div>

@@ -41,7 +41,7 @@ export default function WhyUs() {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-bold font-heading mb-4"
           >
-            Why STSA?
+            Why STS?
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
