@@ -64,7 +64,13 @@ export default function ChatBot() {
     setIsLoading(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+      const apiKey = process.env.GEMINI_API_KEY;
+      
+      if (!apiKey || apiKey === "") {
+        throw new Error("API_KEY_MISSING");
+      }
+
+      const ai = new GoogleGenAI({ apiKey });
       
       // Gemini requires the conversation to start with a user message
       const apiMessages = messages
@@ -94,7 +100,15 @@ export default function ChatBot() {
       setMessages(prev => [...prev, { role: "model", text: aiText }]);
     } catch (error) {
       console.error("ChatBot Error:", error);
-      setMessages(prev => [...prev, { role: "model", text: "Sorry, I'm having trouble connecting right now. Please try again later." }]);
+      let errorMessage = "Sorry, I'm having trouble connecting right now. Please try again later.";
+      
+      if (error instanceof Error && error.message === "API_KEY_MISSING") {
+        errorMessage = "The Gemini API key is missing. Please add GEMINI_API_KEY to your environment variables to enable the AI assistant.";
+      } else if (error instanceof Error && (error.message.includes("API_KEY_INVALID") || error.message.includes("403"))) {
+        errorMessage = "The Gemini API request failed. Please check if your API key is valid and has the necessary permissions.";
+      }
+      
+      setMessages(prev => [...prev, { role: "model", text: errorMessage }]);
     } finally {
       setIsLoading(false);
     }
